@@ -1,0 +1,48 @@
+/* Cinematic Loading Screen Styles */
+.loading-portrait-container {
+  position: relative;
+  border-radius: 24px;
+  overflow: hidden;
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  background: #000;
+  box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.5);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.loading-portrait-glow {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  width: 100%;
+  height: 100%;
+  border-radius: 50%;
+  background: radial-gradient(circle, var(--accent-purple) 0%, rgba(240, 185, 11, 0.6) 50%, transparent 100%);
+  filter: blur(60px);
+  z-index: -1;
+  pointer-events: none;
+  opacity: 0.15;
+  transition: opacity 0.5s ease, transform 0.5s ease;
+}
+
+.loading-text-glow {
+  text-shadow: 0 0 12px rgba(255, 255, 255, 0.2), 
+               0 0 24px rgba(157, 124, 255, 0.3), 
+               0 0 48px rgba(157, 124, 255, 0.1);
+}
+
+.mono-text {
+  font-family: 'Courier New', Courier, monospace;
+}
+
+/* Custom transitions and scroll indicators */
+.loading-log-line {
+  font-size: 0.7rem;
+  letter-spacing: 1px;
+  color: var(--accent-light);
+  opacity: 0.6;
+  margin-bottom: 4px;
+  text-transform: uppercase;
+}
