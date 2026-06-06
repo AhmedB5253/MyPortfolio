@@ -156,6 +156,14 @@ function ProjectMockup({ index, theme, title }: MockupProps) {
   );
 }
 
+const projectTypes: Record<string, string> = {
+  "grocery-management": "Python CLI App",
+  "educational-design": "UX Design Study",
+  "expense-tracker": "React Web App",
+  "insight-board": "React Dashboard",
+  "dev-portfolio": "Next.js Web App",
+};
+
 interface ProjectCardProps {
   project: ProjectItem;
   index: number;
@@ -184,13 +192,15 @@ function ProjectCard({ project, index, total, scrollYProgress }: ProjectCardProp
   const y = useTransform(scrollYProgress, range, [0, targetY]);
   const opacityMask = useTransform(scrollYProgress, range, [0, targetOpacity]);
 
+  const projectType = projectTypes[project.id] || "Project Release";
+
   return (
     <div 
       className="h-screen w-full flex items-center justify-center sticky top-0"
       style={{ perspective: "1200px" }}
     >
       <motion.div
-        className="w-full max-w-[94vw] lg:max-w-[96vw] h-[85vh] lg:h-[80vh] rounded-3xl border border-white/10 dark:border-white/[0.08] bg-white/95 dark:bg-[#080e18]/85 backdrop-blur-xl p-5 md:p-10 flex flex-col lg:flex-row gap-5 lg:gap-10 overflow-y-auto lg:overflow-hidden relative shadow-2xl dark:shadow-[0_25px_80px_rgba(0,0,0,0.35)] transition-colors duration-300"
+        className="w-full max-w-[94vw] lg:max-w-[96vw] h-[82vh] lg:h-[80vh] rounded-3xl border border-white/10 dark:border-white/[0.08] bg-white/95 dark:bg-[#080e18]/85 backdrop-blur-xl p-4 sm:p-6 md:p-10 flex flex-col lg:flex-row gap-5 lg:gap-10 overflow-y-auto lg:overflow-hidden relative shadow-2xl dark:shadow-[0_25px_80px_rgba(0,0,0,0.35)] transition-colors duration-300"
         style={{
           scale,
           rotateX,
@@ -219,7 +229,7 @@ function ProjectCard({ project, index, total, scrollYProgress }: ProjectCardProp
                 Project {String(index + 1).padStart(2, "0")} / {String(total).padStart(2, "0")}
               </span>
               <span className="text-[10px] font-mono text-slate-600 dark:text-white/40 uppercase tracking-widest font-bold">
-                STABLE RELEASE
+                {projectType}
               </span>
             </div>
 
@@ -289,7 +299,7 @@ function ProjectCard({ project, index, total, scrollYProgress }: ProjectCardProp
               <ArrowUpRight size={14} className="transition group-hover:translate-x-0.5 group-hover:-translate-y-0.5 shrink-0" />
             </Link>
             <a
-              href="https://github.com"
+              href={project.github}
               target="_blank"
               rel="noreferrer"
               data-hover="open"

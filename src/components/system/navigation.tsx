@@ -2,7 +2,7 @@
 
 import { motion, useMotionValueEvent, useScroll } from "framer-motion";
 import { Download, Menu, X } from "lucide-react";
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import Link from "next/link";
 import { navItems, owner } from "@/lib/data";
 import { ThemeToggle } from "@/components/ui/theme-toggle";
@@ -10,9 +10,41 @@ import { ThemeToggle } from "@/components/ui/theme-toggle";
 export function Navigation() {
   const [open, setOpen] = useState(false);
   const [scrolled, setScrolled] = useState(false);
+  const [activeSection, setActiveSection] = useState("home");
   const { scrollY } = useScroll();
 
   useMotionValueEvent(scrollY, "change", (latest) => setScrolled(latest > 24));
+
+  useEffect(() => {
+    const observerOptions = {
+      root: null,
+      rootMargin: "-35% 0px -45% 0px", // triggers when section takes up middle of page
+      threshold: 0,
+    };
+
+    const handleIntersection = (entries: IntersectionObserverEntry[]) => {
+      entries.forEach((entry) => {
+        if (entry.isIntersecting) {
+          setActiveSection(entry.target.id);
+        }
+      });
+    };
+
+    const observer = new IntersectionObserver(handleIntersection, observerOptions);
+
+    const sections = ["home", "about", "skills", "projects", "contact"];
+    sections.forEach((id) => {
+      const el = document.getElementById(id);
+      if (el) observer.observe(el);
+    });
+
+    return () => {
+      sections.forEach((id) => {
+        const el = document.getElementById(id);
+        if (el) observer.unobserve(el);
+      });
+    };
+  }, []);
 
   return (
     <motion.header
@@ -35,21 +67,28 @@ export function Navigation() {
           </span>
           <span className="hidden leading-tight sm:block">
             <span className="block font-display text-sm font-semibold text-slate-800 transition-colors duration-300 dark:text-white">{owner.name}</span>
-            <span className="block text-xs text-slate-500 transition-colors duration-300 dark:text-white/50">Fresher frontend developer</span>
+            <span className="block text-xs text-slate-500 transition-colors duration-300 dark:text-white/50">{owner.title}</span>
           </span>
         </Link>
 
         <div className="hidden items-center gap-2 md:flex">
-          {navItems.map((item) => (
-            <Link
-              key={item.href}
-              href={item.href}
-              data-hover="open"
-              className="focus-ring rounded-full px-4 py-2 text-sm font-medium text-slate-600 transition hover:bg-slate-900/[0.04] hover:text-slate-900 dark:text-white/70 dark:hover:bg-white/[0.06] dark:hover:text-white"
-            >
-              {item.label}
-            </Link>
-          ))}
+          {navItems.map((item) => {
+            const isActive = item.href === `/#${activeSection}`;
+            return (
+              <Link
+                key={item.href}
+                href={item.href}
+                data-hover="open"
+                className={`focus-ring rounded-full px-4 py-2 text-sm font-medium transition-all duration-300 ${
+                  isActive
+                    ? "text-indigo-600 bg-indigo-50/50 dark:text-cyan-300 dark:bg-white/[0.08] font-bold"
+                    : "text-slate-600 hover:bg-slate-900/[0.04] hover:text-slate-900 dark:text-white/70 dark:hover:bg-white/[0.06] dark:hover:text-white"
+                }`}
+              >
+                {item.label}
+              </Link>
+            );
+          })}
         </div>
 
         <div className="hidden items-center gap-3 md:flex">
@@ -82,17 +121,24 @@ export function Navigation() {
           animate={{ opacity: 1, y: 0 }}
           className="mx-auto mt-3 w-[calc(100%-16px)] max-w-7xl rounded-2xl border border-slate-200/80 bg-white/90 p-3 shadow-lg backdrop-blur-2xl dark:border-white/12 dark:bg-black/75 md:hidden"
         >
-          {navItems.map((item) => (
-            <Link
-              key={item.href}
-              href={item.href}
-              data-hover="open"
-              onClick={() => setOpen(false)}
-              className="block rounded-xl px-4 py-3 text-sm font-medium text-slate-700 hover:bg-slate-100 dark:text-white/75 dark:hover:bg-white/10 dark:hover:text-white"
-            >
-              {item.label}
-            </Link>
-          ))}
+          {navItems.map((item) => {
+            const isActive = item.href === `/#${activeSection}`;
+            return (
+              <Link
+                key={item.href}
+                href={item.href}
+                data-hover="open"
+                onClick={() => setOpen(false)}
+                className={`block rounded-xl px-4 py-3 text-sm font-medium transition-all duration-300 ${
+                  isActive
+                    ? "text-indigo-600 bg-indigo-50/50 dark:text-cyan-300 dark:bg-white/[0.08] font-bold"
+                    : "text-slate-700 hover:bg-slate-100 dark:text-white/75 dark:hover:bg-white/10 dark:hover:text-white"
+                }`}
+              >
+                {item.label}
+              </Link>
+            );
+          })}
 
           <div className="my-2 flex items-center justify-between border-t border-slate-200/50 pt-3 dark:border-white/5">
             <span className="px-4 text-xs font-bold uppercase tracking-wider text-slate-500 dark:text-white/45">Theme</span>

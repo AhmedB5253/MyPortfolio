@@ -9,7 +9,7 @@ import { stats } from "@/lib/data";
 
 export function AboutSection() {
   return (
-    <section id="about" className="relative overflow-hidden">
+    <section id="about" className="relative overflow-hidden border-t border-slate-100 dark:border-white/[0.02]">
       {/* Background glow layers */}
       <div className="absolute inset-0 pointer-events-none -z-20 select-none">
         {/* Left cyan glow */}
@@ -24,8 +24,8 @@ export function AboutSection() {
       <div className="section-shell">
         <SectionHeading
           eyebrow="About me"
-          title={<>A fresher building strong fundamentals through real projects.</>}
-          copy="I am focused on learning by building: responsive websites, React interfaces, Python console applications, SQL database workflows, and clean UI layouts."
+          title={<>A developer building responsive interfaces and robust database backends.</>}
+          copy="I design and build modern web applications and command-line services, bridging the gap between clean frontend components and reliable backend database logic."
         />
 
         <div className="mt-16 grid gap-6 lg:grid-cols-[0.9fr_1.1fr]">
@@ -78,18 +78,18 @@ export function AboutSection() {
             {[
               {
                 icon: Code2,
-                title: "Frontend Foundations",
-                copy: "I build responsive pages with HTML, CSS, and React JS, focusing on clean structure, clear sections, and readable interfaces.",
+                title: "Frontend & Web Development",
+                copy: "I develop responsive interfaces with React, Next.js, and TypeScript, prioritizing performance, semantic structure, and smooth animations.",
               },
               {
                 icon: Compass,
-                title: "UI/UX Awareness",
-                copy: "I study modern layouts, spacing, contrast, typography, and user flow so my projects feel more professional and easier to scan.",
+                title: "UI/UX Design Systems",
+                copy: "I design intuitive user journeys, high-fidelity Figma prototypes, and consistent brand palettes, ensuring layout balance and accessibility.",
               },
               {
                 icon: Sparkles,
-                title: "Backend Logic Practice",
-                copy: "I practice Python, SQL, and MySQL through simple but useful systems like inventory, billing, records, and reporting flows.",
+                title: "Backend & Database Engineering",
+                copy: "I implement backend services and relational databases using Python and MySQL, managing secure data routing, billing scripts, and query performance.",
               },
             ].map((item, index) => (
               <Reveal key={item.title} delay={index * 0.08} className="glass rounded-2xl p-6 md:p-8">

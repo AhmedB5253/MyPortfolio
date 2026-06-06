@@ -21,16 +21,39 @@ const spaceGrotesk = Space_Grotesk({
 });
 
 export const metadata: Metadata = {
-  title: "Ahmed Bhawrasa | Creative Personal Brand Portfolio",
+  title: "Ahmed Bhawrasa | Frontend Developer & UI/UX Designer",
   description:
-    "A premium cinematic portfolio for a fresher frontend developer learning HTML, CSS, React JS, Python, SQL, and data analysis.",
+    "Ahmed Bhawrasa — Frontend Developer & UI/UX Designer from Indore. Building responsive web experiences with React, Next.js, and Python.",
+  openGraph: {
+    title: "Ahmed Bhawrasa | Frontend Developer & UI/UX Designer",
+    description:
+      "Ahmed Bhawrasa — Frontend Developer & UI/UX Designer from Indore. Building responsive web experiences with React, Next.js, and Python.",
+    url: "https://ahmedbhawrasa.vercel.app",
+    siteName: "Ahmed Bhawrasa Portfolio",
+    images: [
+      {
+        url: "https://ahmedbhawrasa.vercel.app/ahmed-portrait.png",
+        width: 1200,
+        height: 630,
+        alt: "Ahmed Bhawrasa Portfolio Preview",
+      },
+    ],
+    locale: "en_US",
+    type: "website",
+  },
+  twitter: {
+    card: "summary_large_image",
+    title: "Ahmed Bhawrasa | Frontend Developer & UI/UX Designer",
+    description:
+      "Ahmed Bhawrasa — Frontend Developer & UI/UX Designer from Indore. Building responsive web experiences with React, Next.js, and Python.",
+    images: ["https://ahmedbhawrasa.vercel.app/ahmed-portrait.png"],
+  },
 };
 
 export const viewport: Viewport = {
-  themeColor: "#030508",
+  themeColor: "#020407",
   width: "device-width",
   initialScale: 1,
-  maximumScale: 1,
 };
 
 export default function RootLayout({

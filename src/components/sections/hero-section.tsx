@@ -146,13 +146,13 @@ export function HeroSection() {
         style={{ opacity: backgroundFade }}
         className="absolute inset-0 z-[3] pointer-events-none dark:hidden"
       >
-        {/* Grid lines (pulsing, very low opacity) */}
+        {/* Grid lines (pulsing, subtle) */}
         <motion.div
-          animate={{ opacity: [0.03, 0.08, 0.03] }}
+          animate={{ opacity: [0.06, 0.12, 0.06] }}
           transition={{ duration: 10, repeat: Infinity, ease: "easeInOut" }}
           className="absolute inset-0"
           style={{
-            backgroundImage: `linear-gradient(rgba(99, 102, 241, 0.05) 1px, transparent 1px), linear-gradient(90deg, rgba(99, 102, 241, 0.04) 1px, transparent 1px)`,
+            backgroundImage: `linear-gradient(rgba(79, 70, 229, 0.08) 1px, transparent 1px), linear-gradient(90deg, rgba(79, 70, 229, 0.06) 1px, transparent 1px)`,
             backgroundSize: "64px 64px",
             maskImage: "radial-gradient(ellipse 80% 60% at 50% 30%, black 30%, transparent 75%)",
           }}
@@ -179,12 +179,12 @@ export function HeroSection() {
             transition={{ duration: 0.8, delay: 0.05 }}
             className="inline-flex items-center gap-2 mb-4 lg:mb-5 max-w-max rounded-full border border-indigo-100 dark:border-cyan-400/20 bg-indigo-50/50 dark:bg-slate-950 px-4 py-2 text-xs font-bold uppercase tracking-[0.24em] text-indigo-600 dark:text-cyan-200 backdrop-blur-xl transition-all duration-300"
           >
-            <span className="size-2 rounded-full bg-cyan-400 animate-pulse" />
-            Personal Brand Website
+            <span className="size-2 rounded-full bg-emerald-500 animate-pulse" />
+            Available for Opportunities
           </motion.div>
 
           {/* Giant Display Typography */}
-          <h1 className="font-display text-6xl md:text-8xl lg:text-[5rem] xl:text-[6rem] 2xl:text-[6.5rem] font-black leading-[0.88] tracking-tighter text-slate-900 transition-colors duration-300 dark:text-white select-none">
+          <h1 className="font-display text-5xl sm:text-6xl md:text-8xl lg:text-[5rem] xl:text-[6rem] 2xl:text-[6.5rem] font-black leading-[0.88] tracking-tighter text-slate-900 transition-colors duration-300 dark:text-white select-none">
             <span className="block overflow-hidden pb-1">
               <motion.span
                 className="inline-block"
@@ -284,7 +284,7 @@ export function HeroSection() {
                     key={badge.label}
                     className={`flex items-center gap-2.5 rounded-xl border border-indigo-100/60 bg-white/80 p-3 shadow-sm backdrop-blur-md transition-all duration-300 hover:bg-slate-100/50 dark:border-white/10 dark:bg-[#05070a] dark:shadow-md dark:hover:bg-[#0c1017] ${cleanAccent}`}
                   >
-                    <Icon size={14} className="shrink-0 animate-pulse" />
+                    <Icon size={14} className="shrink-0 animate-pulse" style={{ animationDelay: `${idx * 0.3}s`, animationDuration: "2s" }} />
                     <span className="text-[10px] font-bold uppercase tracking-wider text-slate-800 dark:text-white/80 transition-colors duration-300">
                       {badge.label}
                     </span>
@@ -486,7 +486,7 @@ export function HeroSection() {
           animate={{ y: [0, 8, 0] }}
           transition={{ duration: 1.6, repeat: Infinity, ease: "easeInOut" }}
         >
-          <ArrowDown size={14} className="text-indigo-600 dark:text-cyan-300 animate-bounce transition-colors duration-300" />
+          <ArrowDown size={14} className="text-indigo-600 dark:text-cyan-300 transition-colors duration-300" />
         </motion.span>
       </motion.a>
     </section>

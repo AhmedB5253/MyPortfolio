@@ -11,21 +11,42 @@ export function ContactSection() {
   const [isSubmitted, setIsSubmitted] = useState(false);
   const [isSubmitting, setIsSubmitting] = useState(false);
 
-  const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
+  const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
     setIsSubmitting(true);
-    setTimeout(() => {
+    
+    const form = e.currentTarget;
+    const data = new FormData(form);
+    
+    try {
+      const response = await fetch("https://formspree.io/f/xkoaoypv", {
+        method: "POST",
+        body: data,
+        headers: {
+          'Accept': 'application/json'
+        }
+      });
+      
+      if (response.ok) {
+        setIsSubmitted(true);
+        form.reset();
+      } else {
+        alert("Oops! There was a problem submitting your form. Please try again.");
+      }
+    } catch (error) {
+      alert("Oops! There was a problem submitting your form. Please check your connection and try again.");
+    } finally {
       setIsSubmitting(false);
-      setIsSubmitted(true);
-    }, 1200);
+    }
   };
+
   return (
     <section id="contact" className="relative">
       <div className="section-shell">
         <SectionHeading
           eyebrow="Contact"
-          title={<>Let’s build something polished, useful, and memorable.</>}
-          copy="A focused contact section with a practical form, social links, and clear CTAs for recruiters, collaborators, and clients."
+          title={<>Ready to contribute. Let’s talk.</>}
+          copy="Connect regarding frontend roles, internship opportunities, UI/UX collaborations, or project builds."
         />
 
         <div className="mt-16 grid gap-6 lg:grid-cols-[0.9fr_1.1fr]">
@@ -58,7 +79,7 @@ export function ContactSection() {
 
           <Reveal delay={0.08} className="glass rounded-2xl p-5 md:p-7">
             {isSubmitted ? (
-              <div className="flex h-full min-h-[350px] flex-col items-center justify-center text-center py-12 px-4">
+              <div className="flex h-full min-h-[350px] flex-col items-center justify-center text-center py-12 px-4" aria-live="polite">
                 <div className="grid size-16 place-items-center rounded-full bg-emerald-500/10 dark:bg-emerald-400/10 text-emerald-600 dark:text-emerald-400 mb-6 border border-emerald-500/20 dark:border-emerald-400/20">
                   <CheckCircle2 size={32} className="animate-bounce" />
                 </div>
@@ -78,23 +99,23 @@ export function ContactSection() {
             ) : (
               <form onSubmit={handleSubmit} className="grid gap-4">
                 <div className="grid gap-4 sm:grid-cols-2">
-                  <label className="grid gap-2">
-                    <span className="text-sm font-semibold text-slate-600 transition-colors duration-300 dark:text-white/68">Name</span>
-                    <input required className="focus-ring rounded-2xl border border-slate-200 bg-white/60 px-4 py-3 text-slate-800 outline-none transition placeholder:text-slate-400 focus:border-indigo-500/45 dark:border-white/12 dark:bg-black/24 dark:text-white dark:placeholder:text-white/28 dark:focus:border-cyan-200/45" placeholder="Your name" />
-                  </label>
-                  <label className="grid gap-2">
-                    <span className="text-sm font-semibold text-slate-600 transition-colors duration-300 dark:text-white/68">Email</span>
-                    <input required type="email" className="focus-ring rounded-2xl border border-slate-200 bg-white/60 px-4 py-3 text-slate-800 outline-none transition placeholder:text-slate-400 focus:border-indigo-500/45 dark:border-white/12 dark:bg-black/24 dark:text-white dark:placeholder:text-white/28 dark:focus:border-cyan-200/45" placeholder="you@example.com" />
-                  </label>
+                  <div className="grid gap-2">
+                    <label htmlFor="contact-name" className="text-sm font-semibold text-slate-600 transition-colors duration-300 dark:text-white/68">Name</label>
+                    <input id="contact-name" name="name" required className="focus-ring rounded-2xl border border-slate-200 bg-white/60 px-4 py-3 text-slate-800 outline-none transition placeholder:text-slate-400 focus:border-indigo-500/45 dark:border-white/12 dark:bg-black/24 dark:text-white dark:placeholder:text-white/28 dark:focus:border-cyan-200/45" placeholder="Your name" />
+                  </div>
+                  <div className="grid gap-2">
+                    <label htmlFor="contact-email" className="text-sm font-semibold text-slate-600 transition-colors duration-300 dark:text-white/68">Email</label>
+                    <input id="contact-email" name="email" required type="email" className="focus-ring rounded-2xl border border-slate-200 bg-white/60 px-4 py-3 text-slate-800 outline-none transition placeholder:text-slate-400 focus:border-indigo-500/45 dark:border-white/12 dark:bg-black/24 dark:text-white dark:placeholder:text-white/28 dark:focus:border-cyan-200/45" placeholder="you@example.com" />
+                  </div>
                 </div>
-                <label className="grid gap-2">
-                  <span className="text-sm font-semibold text-slate-600 transition-colors duration-300 dark:text-white/68">Project type</span>
-                  <input className="focus-ring rounded-2xl border border-slate-200 bg-white/60 px-4 py-3 text-slate-800 outline-none transition placeholder:text-slate-400 focus:border-indigo-500/45 dark:border-white/12 dark:bg-black/24 dark:text-white dark:placeholder:text-white/28 dark:focus:border-cyan-200/45" placeholder="Frontend, UI/UX, landing page, redesign..." />
-                </label>
-                <label className="grid gap-2">
-                  <span className="text-sm font-semibold text-slate-600 transition-colors duration-300 dark:text-white/68">Message</span>
-                  <textarea required rows={6} className="focus-ring resize-none rounded-2xl border border-slate-200 bg-white/60 px-4 py-3 text-slate-800 outline-none transition placeholder:text-slate-400 focus:border-indigo-500/45 dark:border-white/12 dark:bg-black/24 dark:text-white dark:placeholder:text-white/28 dark:focus:border-cyan-200/45" placeholder="Tell me what you want to build." />
-                </label>
+                <div className="grid gap-2">
+                  <label htmlFor="contact-project-type" className="text-sm font-semibold text-slate-600 transition-colors duration-300 dark:text-white/68">Project type</label>
+                  <input id="contact-project-type" name="project_type" className="focus-ring rounded-2xl border border-slate-200 bg-white/60 px-4 py-3 text-slate-800 outline-none transition placeholder:text-slate-400 focus:border-indigo-500/45 dark:border-white/12 dark:bg-black/24 dark:text-white dark:placeholder:text-white/28 dark:focus:border-cyan-200/45" placeholder="Frontend, UI/UX, landing page, redesign..." />
+                </div>
+                <div className="grid gap-2">
+                  <label htmlFor="contact-message" className="text-sm font-semibold text-slate-600 transition-colors duration-300 dark:text-white/68">Message</label>
+                  <textarea id="contact-message" name="message" required rows={6} className="focus-ring resize-none rounded-2xl border border-slate-200 bg-white/60 px-4 py-3 text-slate-800 outline-none transition placeholder:text-slate-400 focus:border-indigo-500/45 dark:border-white/12 dark:bg-black/24 dark:text-white dark:placeholder:text-white/28 dark:focus:border-cyan-200/45" placeholder="Tell me what you want to build." />
+                </div>
                 <button type="submit" disabled={isSubmitting} data-hover="open" className="focus-ring group inline-flex items-center justify-center gap-2 rounded-full border border-indigo-200 bg-indigo-50/30 px-5 py-3 text-sm font-bold text-indigo-950 transition hover:bg-indigo-100/50 hover:text-indigo-950 dark:border-cyan-200/35 dark:bg-cyan-200/12 dark:text-cyan-50 dark:hover:bg-cyan-200/20 dark:hover:text-white disabled:opacity-50 disabled:pointer-events-none">
                   {isSubmitting ? "Sending..." : "Send message"}
                   {!isSubmitting && <Send size={16} className="transition group-hover:translate-x-0.5" />}

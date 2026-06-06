@@ -76,7 +76,7 @@ export function Footer() {
           <p>© {new Date().getFullYear()} Ahmed Bhawrasa. Crafted with absolute precision.</p>
           <div className="flex items-center gap-4">
             <span className="flex items-center gap-1.5"><span className="size-1.5 rounded-full bg-indigo-500 dark:bg-cyan-400 animate-pulse" /> Indore, India</span>
-            <span>Dawoodi Bohra Community Integrity</span>
+            <span>Active Worldwide • Working from Indore, India</span>
           </div>
         </div>
 

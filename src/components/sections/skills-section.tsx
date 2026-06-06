@@ -18,7 +18,7 @@ export function SkillsSection() {
         <SectionHeading
           eyebrow="Skills & technologies"
           title={<>Learned skills shown through practical capability.</>}
-          copy="No percentage bars or inflated stats. Each skill is framed by what it helps build, so recruiters can quickly understand the practical value."
+          copy="Key competencies and technical disciplines mapped directly to practical application areas."
         />
 
         <div className="mt-16 grid gap-5 md:grid-cols-2">

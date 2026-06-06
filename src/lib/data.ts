@@ -22,8 +22,8 @@ export const owner = {
   name: "Ahmed Bhawrasa",
   title: "Frontend Developer & UI/UX Designer",
   intro:
-    "Crafting cinematic, responsive user interfaces and robust digital experiences. Merging clean frontend code (React, HTML/CSS) with design principles and a growing passion for AI & Machine Learning.",
-  email: "ahmed.bhawrasa.dev@gmail.com",
+    "Crafting cinematic, responsive user interfaces and robust digital experiences. Specializing in clean frontend engineering (React, Next.js) and intuitive UI/UX design, focusing on polished performance and accessible layouts.",
+  email: "Ahmedmoiz8454@gmail.com",
   location: "Indore, India",
   resume: "/Ahmed-Bhawrasawala-Resume.pdf",
 };
@@ -37,8 +37,8 @@ export const navItems = [
 ];
 
 export const socials = [
-  { label: "GitHub", href: "https://github.com", icon: Code2 },
-  { label: "LinkedIn", href: "https://linkedin.com", icon: BriefcaseBusiness },
+  { label: "GitHub", href: "https://github.com/AhmedB5253/", icon: Code2 },
+  { label: "LinkedIn", href: "https://www.linkedin.com/in/ahmed-bhawrasa-wala-6bab59323/", icon: BriefcaseBusiness },
   { label: "Twitter", href: "https://twitter.com", icon: MessageCircle },
   { label: "Email", href: `mailto:${owner.email}`, icon: Mail },
 ];
@@ -66,6 +66,7 @@ export interface ProjectItem {
   theme: string;
   metrics: string[];
   caseStudy: ProjectCaseStudy;
+  github: string;
 }
 
 export const projects: ProjectItem[] = [
@@ -78,6 +79,7 @@ export const projects: ProjectItem[] = [
     tech: ["Python", "MySQL", "Inventory Management", "Billing System"],
     theme: "from-emerald-300/28 via-teal-500/18 to-white/10",
     metrics: ["Product Tracking", "Customer Records", "MySQL Integration"],
+    github: "https://github.com/AhmedB5253/",
     caseStudy: {
       problem: "Local merchants suffer from product counting errors, manual ledger bookkeeping mistakes, and stock discrepancies. There was a direct need for an offline-first inventory management ledger that securely links item categories with sales bills.",
       planning: "Constructed relational database models with foreign-key relationships representing Products, Transactions, Employees, and stock counts. Engineered constraints to block duplicate entry logs.",
@@ -95,6 +97,7 @@ export const projects: ProjectItem[] = [
     tech: ["Figma", "UI/UX Design", "Wireframes", "Design System"],
     theme: "from-blue-300/30 via-cyan-500/18 to-white/10",
     metrics: ["Research Process", "User Personas", "Accessibility Improvements"],
+    github: "https://github.com/AhmedB5253/",
     caseStudy: {
       problem: "Many existing educational websites present high student cognitive load, chaotic content maps, and a total lack of WCAG color contrast standards, leading to poor learning journeys.",
       planning: "Conducted user research with 15 active learners. Mapped student and teacher user flows, designed clean spatial grids, and set up a unified visual design system.",
@@ -112,6 +115,7 @@ export const projects: ProjectItem[] = [
     tech: ["React JS", "Local Storage", "Interactive Charts", "State Management"],
     theme: "from-indigo-300/28 via-blue-500/18 to-white/10",
     metrics: ["Income & Expenses", "Category Analytics", "Monthly Tracking"],
+    github: "https://github.com/AhmedB5253/",
     caseStudy: {
       problem: "Individuals struggle to stick to financial budgets because of complex expense logging systems. They need a zero-friction dashboard that visualizes habits instantly and retains records offline.",
       planning: "Visualized a linear grid dashboard. Kept expense creation fields to a single action form, set up categories tags, and structured Local Storage schemas for speed.",
@@ -129,6 +133,7 @@ export const projects: ProjectItem[] = [
     tech: ["React JS", "Data Visualization", "KPI Grids", "HTML/CSS"],
     theme: "from-cyan-300/30 via-sky-500/18 to-white/10",
     metrics: ["Interactive Charts", "KPI Cards", "Layout System"],
+    github: "https://github.com/AhmedB5253/",
     caseStudy: {
       problem: "Organizations lose insights because analytical data is locked in raw text charts. A modern bento-style responsive layout was needed to visualize metrics fluidly.",
       planning: "Mapped core data channels into four quadrants: quick KPIs, main visual trend, category shares, and active event log. Prioritized layout responsiveness down to 375px.",
@@ -146,6 +151,7 @@ export const projects: ProjectItem[] = [
     tech: ["React/Next.js", "Framer Motion", "Three.js", "Custom Cursor"],
     theme: "from-purple-300/30 via-pink-500/18 to-white/10",
     metrics: ["Advanced Animations", "Custom Cursor System", "Case Study Pages"],
+    github: "https://github.com/AhmedB5253/MyPortfolio",
     caseStudy: {
       problem: "Traditional grid resumes look generic and fail to show a developer's visual care and craftsmanship. A recruiter deserves an immersive sensory narrative of skills.",
       planning: "Aimed for high-end cinematic aesthetics: micro-animations, spring-based interactions, loading screen name reveals, and a dedicated storytelling route.",
@@ -209,7 +215,7 @@ export const skillGroups = [
       {
         name: "MySQL & Relational DB",
         signal: "Data Querying",
-        detail: "Writing efficient joins, foreign keys configuration, aggregations, database schemas, and transactions.",
+        detail: "Writing efficient joins, foreign keys configuration, database schemas, and transactions.",
       }
     ],
   },
