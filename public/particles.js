@@ -536,6 +536,10 @@ var pJS = function(tag_id, params){
       //     p.vy = f * Math.sin(t);
       // }
 
+      /* smoothly return velocity to default drift velocity */
+      p.vx += (p.vx_i - p.vx) * 0.04;
+      p.vy += (p.vy_i - p.vy) * 0.04;
+
       /* move the particle */
       if(pJS.particles.move.enable){
         var ms = pJS.particles.move.speed/2;
@@ -958,22 +962,16 @@ var pJS = function(tag_id, params){
           dy_mouse = p.y - pJS.interactivity.mouse.pos_y,
           dist_mouse = Math.sqrt(dx_mouse*dx_mouse + dy_mouse*dy_mouse);
 
-      var normVec = {x: dx_mouse/dist_mouse, y: dy_mouse/dist_mouse},
-          repulseRadius = pJS.interactivity.modes.repulse.distance,
-          velocity = 100,
-          repulseFactor = clamp((1/repulseRadius)*(-1*Math.pow(dist_mouse/repulseRadius,2)+1)*repulseRadius*velocity, 0, 50);
-      
-      var pos = {
-        x: p.x + normVec.x * repulseFactor,
-        y: p.y + normVec.y * repulseFactor
-      }
+      var repulseRadius = pJS.interactivity.modes.repulse.distance;
 
-      if(pJS.particles.move.out_mode == 'bounce'){
-        if(pos.x - p.radius > 0 && pos.x + p.radius < pJS.canvas.w) p.x = pos.x;
-        if(pos.y - p.radius > 0 && pos.y + p.radius < pJS.canvas.h) p.y = pos.y;
-      }else{
-        p.x = pos.x;
-        p.y = pos.y;
+      if(dist_mouse < repulseRadius && dist_mouse > 0){
+        // Calculate force: stronger when closer
+        var force = (repulseRadius - dist_mouse) / repulseRadius;
+        var strength = force * 2.2; // Adjust strength for smooth acceleration away from cursor
+        
+        // Add velocity away from the mouse
+        p.vx += (dx_mouse / dist_mouse) * strength * 0.15;
+        p.vy += (dy_mouse / dist_mouse) * strength * 0.15;
       }
     
     }

@@ -52,7 +52,7 @@ export const InteractiveCanvasBg = memo(function InteractiveCanvasBg() {
           },
           // Cyan lines in dark mode, soft indigo lines in light mode
           line_linked: {
-            enable: true,
+            enable: false,
             distance: 140,
             color: isDark ? "#a0dcff" : "#818cf8",
             opacity: isDark ? 0.22 : 0.28,
@@ -60,7 +60,7 @@ export const InteractiveCanvasBg = memo(function InteractiveCanvasBg() {
           },
           move: {
             enable: true,
-            speed: 0.6,
+            speed: 1.5,
             direction: "none",
             random: true,
             straight: false,
@@ -69,16 +69,16 @@ export const InteractiveCanvasBg = memo(function InteractiveCanvasBg() {
           },
         },
         interactivity: {
-          // Detect on window globally so clicks/hovers register even over card/text overlays
+          // Detect on window globally so clicks register even over card/text overlays
           detect_on: "window",
           events: {
             onhover: {
-              enable: true,
-              mode: ["repulse", "grab"],
+              enable: false,
+              mode: [],
             },
             onclick: {
-              enable: true,
-              mode: "push",
+              enable: false,
+              mode: [],
             },
             resize: true,
           },
@@ -193,7 +193,7 @@ export const InteractiveCanvasBg = memo(function InteractiveCanvasBg() {
   return (
     <div
       id={containerId}
-      className="absolute inset-0 w-full h-full pointer-events-auto bg-[#fafafc] dark:bg-black transition-colors duration-300 overflow-hidden"
+      className="absolute inset-0 w-full h-full pointer-events-none bg-[#fafafc] dark:bg-black transition-colors duration-300 overflow-hidden"
     >
       {/* Drifting Color Blobs (Light Mode Only) */}
       <div className="absolute inset-0 overflow-hidden pointer-events-none dark:hidden select-none z-[0]">
