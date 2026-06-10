@@ -20,9 +20,9 @@ import {
 
 export const owner = {
   name: "Ahmed Bhawrasa",
-  title: "Frontend Developer & UI/UX Designer",
+  title: "Frontend Developer, Graphic & Web Designer",
   intro:
-    "Crafting cinematic, responsive user interfaces and robust digital experiences. Specializing in clean frontend engineering (React, Next.js) and intuitive UI/UX design, focusing on polished performance and accessible layouts.",
+    "Crafting cinematic, responsive user interfaces, robust digital experiences, and high-impact branding. Specializing in clean frontend engineering (React, Next.js), intuitive UI/UX design, responsive web design, and bespoke graphic aesthetics.",
   email: "Ahmedmoiz8454@gmail.com",
   location: "Indore, India",
   resume: "/Ahmed-Bhawrasawala-Resume.pdf",
@@ -203,19 +203,53 @@ export const skillGroups = [
     ],
   },
   {
+    title: "Graphic Design & Visuals",
+    icon: Palette,
+    accent: "blue",
+    skills: [
+      {
+        name: "Brand Identity & Logo Design",
+        signal: "Aesthetic Core",
+        detail: "Crafting distinct visual identities, logos, color theory rules, brand guidelines, and high-impact vector graphics.",
+      },
+      {
+        name: "Digital Assets & Marketing",
+        signal: "Visual Assets",
+        detail: "Designing bespoke icons, social media graphics, print media layouts, and illustrations using Photoshop & Illustrator.",
+      }
+    ],
+  },
+  {
+    title: "Web Design & Prototyping",
+    icon: Layers3,
+    accent: "indigo",
+    skills: [
+      {
+        name: "Responsive Layout Design",
+        signal: "Screen Systems",
+        detail: "Configuring fluid wireframes, web grid alignments, typography hierarchies, and mobile-first responsive screens.",
+      },
+      {
+        name: "Interactive Mockups",
+        signal: "User Journeys",
+        detail: "Building clean screen transitions, interactive Figma prototypes, component hover states, and design-to-development handoffs.",
+      }
+    ],
+  },
+  {
     title: "Back-End & Programming",
     icon: Database,
     accent: "indigo",
     skills: [
       {
         name: "Python Programming",
-        signal: "Problem Solving",
-        detail: "Data handling scripts, modular CLI logic, computational algorithms, and system integrations.",
+        signal: "Script Logic",
+        detail: "Writing command-line scripts, handling structured data, automation tasks, and building modular logical workflows.",
       },
       {
         name: "MySQL & Relational DB",
-        signal: "Data Querying",
-        detail: "Writing efficient joins, foreign keys configuration, database schemas, and transactions.",
+        signal: "Structured Queries",
+        detail: "Designing relational database schemas, setting up tables, configuring keys, and writing basic SQL queries.",
       }
     ],
   },

@@ -87,7 +87,7 @@ export function HeroSection() {
 
   const portraitScale = useTransform(scrollYProgress, [0, 1], [1, 1.08]);
   const contentFade = useTransform(scrollYProgress, [0, 0.6], [1, 0]);
-  const backgroundFade = useTransform(scrollYProgress, [0, 0.8], [1, 0.15]);
+  const backgroundFade = useTransform(scrollYProgress, [0, 0.8], [0.95, 0.85]);
   const contentY = useTransform(scrollYProgress, [0, 1], [0, -40]);
 
   const handleMouseMove = (e: React.MouseEvent) => {
@@ -140,21 +140,27 @@ export function HeroSection() {
 
 
       {/* ═══════════════════════════════════════════════
-          BACKGROUND LAYER 3 — Grid lines (calm & subtle)
+          BACKGROUND LAYER 3 — Grid lines (calm & subtle, panning continuously)
       ═══════════════════════════════════════════════ */}
       <motion.div
         style={{ opacity: backgroundFade }}
-        className="absolute inset-0 z-[3] pointer-events-none dark:hidden"
+        className="absolute inset-0 z-[3] pointer-events-none"
       >
-        {/* Grid lines (pulsing, subtle) */}
+        {/* Grid lines (pulsing, continuous panning) */}
         <motion.div
-          animate={{ opacity: [0.06, 0.12, 0.06] }}
-          transition={{ duration: 10, repeat: Infinity, ease: "easeInOut" }}
-          className="absolute inset-0"
+          animate={{ 
+            opacity: [0.06, 0.12, 0.06],
+            backgroundPosition: ["0px 0px", "64px 64px"]
+          }}
+          transition={{ 
+            opacity: { duration: 10, repeat: Infinity, ease: "easeInOut" },
+            backgroundPosition: { duration: 20, repeat: Infinity, ease: "linear" }
+          }}
+          className="absolute inset-0 bg-[linear-gradient(rgba(79,70,229,0.08)_1px,transparent_1px),linear-gradient(90deg,rgba(79,70,229,0.06)_1px,transparent_1px)] dark:bg-[linear-gradient(rgba(92,242,232,0.06)_1px,transparent_1px),linear-gradient(90deg,rgba(99,102,241,0.05)_1px,transparent_1px)]"
           style={{
-            backgroundImage: `linear-gradient(rgba(79, 70, 229, 0.08) 1px, transparent 1px), linear-gradient(90deg, rgba(79, 70, 229, 0.06) 1px, transparent 1px)`,
             backgroundSize: "64px 64px",
             maskImage: "radial-gradient(ellipse 80% 60% at 50% 30%, black 30%, transparent 75%)",
+            WebkitMaskImage: "radial-gradient(ellipse 80% 60% at 50% 30%, black 30%, transparent 75%)",
           }}
         />
       </motion.div>

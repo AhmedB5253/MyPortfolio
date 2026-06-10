@@ -1,7 +1,7 @@
 "use client";
 
 import { useState } from "react";
-import { ArrowUpRight, Mail, Send, CheckCircle2 } from "lucide-react";
+import { ArrowUpRight, Mail, Send, CheckCircle2, ChevronDown } from "lucide-react";
 import { MagneticButton } from "@/components/ui/magnetic-button";
 import { Reveal } from "@/components/ui/reveal";
 import { SectionHeading } from "@/components/ui/section-heading";
@@ -110,7 +110,26 @@ export function ContactSection() {
                 </div>
                 <div className="grid gap-2">
                   <label htmlFor="contact-project-type" className="text-sm font-semibold text-slate-600 transition-colors duration-300 dark:text-white/68">Project type</label>
-                  <input id="contact-project-type" name="project_type" className="focus-ring rounded-2xl border border-slate-200 bg-white/60 px-4 py-3 text-slate-800 outline-none transition placeholder:text-slate-400 focus:border-indigo-500/45 dark:border-white/12 dark:bg-black/24 dark:text-white dark:placeholder:text-white/28 dark:focus:border-cyan-200/45" placeholder="Frontend, UI/UX, landing page, redesign..." />
+                  <div className="relative">
+                    <select
+                      id="contact-project-type"
+                      name="project_type"
+                      required
+                      defaultValue=""
+                      className="w-full focus-ring rounded-2xl border border-slate-200 bg-white/60 pl-4 pr-10 py-3 text-slate-800 outline-none transition appearance-none cursor-pointer focus:border-indigo-500/45 dark:border-white/12 dark:bg-black/24 dark:text-white dark:focus:border-cyan-200/45"
+                    >
+                      <option value="" disabled className="text-slate-400 dark:text-white/28 bg-white dark:bg-[#0c1017]">Select a skill / project type...</option>
+                      <option value="Frontend Development" className="bg-white dark:bg-[#0c1017]">Frontend Development (React/Next.js)</option>
+                      <option value="UI/UX Design" className="bg-white dark:bg-[#0c1017]">UI/UX Design (Figma)</option>
+                      <option value="Graphic Design" className="bg-white dark:bg-[#0c1017]">Graphic Design (Branding & Assets)</option>
+                      <option value="Web Design" className="bg-white dark:bg-[#0c1017]">Web Design (Responsive Layouts)</option>
+                      <option value="AI & ML Prototyping" className="bg-white dark:bg-[#0c1017]">AI & ML Prototyping</option>
+                      <option value="Other Consultation" className="bg-white dark:bg-[#0c1017]">Other Collaboration</option>
+                    </select>
+                    <div className="absolute right-4 top-1/2 -translate-y-1/2 pointer-events-none text-slate-500 dark:text-white/50">
+                      <ChevronDown size={18} />
+                    </div>
+                  </div>
                 </div>
                 <div className="grid gap-2">
                   <label htmlFor="contact-message" className="text-sm font-semibold text-slate-600 transition-colors duration-300 dark:text-white/68">Message</label>

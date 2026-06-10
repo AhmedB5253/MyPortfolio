@@ -195,23 +195,23 @@ export const InteractiveCanvasBg = memo(function InteractiveCanvasBg() {
       id={containerId}
       className="absolute inset-0 w-full h-full pointer-events-none bg-[#fafafc] dark:bg-black transition-colors duration-300 overflow-hidden"
     >
-      {/* Drifting Color Blobs (Light Mode Only) */}
-      <div className="absolute inset-0 overflow-hidden pointer-events-none dark:hidden select-none z-[0]">
+      {/* Drifting Color Blobs (Visible in both Light & Dark modes) */}
+      <div className="absolute inset-0 overflow-hidden pointer-events-none select-none z-[0]">
         {/* Blob 1: Indigo */}
         <div 
-          className="absolute rounded-full bg-indigo-400/20 blur-[90px] top-[-50px] left-[10%] w-[350px] h-[350px]"
+          className="absolute rounded-full bg-indigo-400/20 dark:bg-indigo-950/25 blur-[90px] top-[-50px] left-[10%] w-[350px] h-[350px]"
           style={{ animation: "float-blob-1 25s infinite alternate ease-in-out" }}
         />
         
         {/* Blob 2: Cyan */}
         <div 
-          className="absolute rounded-full bg-cyan-300/15 blur-[100px] bottom-[-80px] right-[15%] w-[400px] h-[400px]"
+          className="absolute rounded-full bg-cyan-300/15 dark:bg-cyan-950/20 blur-[100px] bottom-[-80px] right-[15%] w-[400px] h-[400px]"
           style={{ animation: "float-blob-2 30s infinite alternate ease-in-out" }}
         />
         
         {/* Blob 3: Violet/Purple */}
         <div 
-          className="absolute rounded-full bg-purple-300/15 blur-[80px] top-[45%] left-[45%] -translate-x-1/2 -translate-y-1/2 w-[300px] h-[300px]"
+          className="absolute rounded-full bg-purple-300/15 dark:bg-purple-950/20 blur-[80px] top-[45%] left-[45%] -translate-x-1/2 -translate-y-1/2 w-[300px] h-[300px]"
           style={{ animation: "float-blob-3 20s infinite alternate ease-in-out" }}
         />
       </div>
