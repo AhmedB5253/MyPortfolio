@@ -32,7 +32,7 @@ export function SkillsSection() {
                   <h3 className="font-display text-2xl font-semibold text-slate-900 dark:text-white transition-colors duration-300">{group.title}</h3>
                 </div>
                 <span className="rounded-full border border-cyan-200/40 dark:border-cyan-200/20 bg-slate-100/60 dark:bg-slate-950/60 px-3 py-1 text-xs font-bold uppercase tracking-[0.18em] text-cyan-700 dark:text-cyan-100 transition-all duration-300">
-                  Learned
+                  {group.status || "Learned"}
                 </span>
               </div>
 

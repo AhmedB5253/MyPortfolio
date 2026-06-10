@@ -123,7 +123,6 @@ export function ContactSection() {
                       <option value="UI/UX Design" className="bg-white dark:bg-[#0c1017]">UI/UX Design (Figma)</option>
                       <option value="Graphic Design" className="bg-white dark:bg-[#0c1017]">Graphic Design (Branding & Assets)</option>
                       <option value="Web Design" className="bg-white dark:bg-[#0c1017]">Web Design (Responsive Layouts)</option>
-                      <option value="AI & ML Prototyping" className="bg-white dark:bg-[#0c1017]">AI & ML Prototyping</option>
                       <option value="Other Consultation" className="bg-white dark:bg-[#0c1017]">Other Collaboration</option>
                     </select>
                     <div className="absolute right-4 top-1/2 -translate-y-1/2 pointer-events-none text-slate-500 dark:text-white/50">

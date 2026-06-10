@@ -257,6 +257,7 @@ export const skillGroups = [
     title: "AI & Machine Learning Vision",
     icon: Rocket,
     accent: "cyan",
+    status: "Learning",
     skills: [
       {
         name: "AI/ML Fundamentals",
