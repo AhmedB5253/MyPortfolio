@@ -37,20 +37,20 @@ export function LoadingScreen({ onComplete }: LoadingScreenProps) {
     return () => window.removeEventListener("mousemove", handleMouseMove);
   }, []);
 
-  // Simulate premium progress loading
+  // Simulate premium progress loading based on elapsed time
   useEffect(() => {
     const duration = 2400; // 2.4 seconds for cinematic loading feel
     const intervalTime = 20;
-    const steps = duration / intervalTime;
-    let currentStep = 0;
+    const startTime = Date.now();
 
     const interval = setInterval(() => {
-      currentStep++;
-      const easeProgress = Math.sin((currentStep / steps) * (Math.PI / 2)) * 100;
-      const newProgress = Math.min(easeProgress, 100);
-      setProgress(newProgress);
+      const elapsed = Date.now() - startTime;
+      const rawProgress = Math.min(elapsed / duration, 1);
 
-      if (currentStep >= steps) {
+      const easeProgress = Math.sin(rawProgress * (Math.PI / 2)) * 100;
+      setProgress(easeProgress);
+
+      if (rawProgress >= 1) {
         clearInterval(interval);
         // Play cinematic ambient sound sweep
         playDrone();
@@ -60,7 +60,7 @@ export function LoadingScreen({ onComplete }: LoadingScreenProps) {
     }, intervalTime);
 
     return () => clearInterval(interval);
-  }, [onComplete]);
+  }, [onComplete, playDrone]);
 
   // Compute responsive values — default to desktop sizes until client hydrates
   const mobile = isMobile === true;
