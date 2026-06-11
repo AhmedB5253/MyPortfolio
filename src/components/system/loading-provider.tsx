@@ -32,13 +32,13 @@ export function LoadingProvider({ children }: { children: React.ReactNode }) {
     };
   }, [loading]);
 
-  const handleComplete = () => {
+  const handleComplete = React.useCallback(() => {
     if (typeof window !== "undefined") {
       (window as any).__hasLoadedGlobal = true;
       sessionStorage.setItem("hasLoadedGlobal", "true");
     }
     setLoading(false);
-  };
+  }, []);
 
   const hasLoadedGlobal = typeof window !== "undefined" && 
     ((window as any).__hasLoadedGlobal || sessionStorage.getItem("hasLoadedGlobal") === "true");
