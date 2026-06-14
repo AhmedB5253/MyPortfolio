@@ -23,8 +23,8 @@ export const InteractiveCanvasBg = memo(function InteractiveCanvasBg() {
     // ── Resize ──────────────────────────────────────────────────────────────
     function resize() {
       if (!canvas) return;
-      const w = window.innerWidth;
-      const h = window.innerHeight;
+      const w = canvas.parentElement ? canvas.parentElement.clientWidth : window.innerWidth;
+      const h = canvas.parentElement ? canvas.parentElement.clientHeight : window.innerHeight;
       canvas.width = w * dpr;
       canvas.height = h * dpr;
       ctx!.setTransform(dpr, 0, 0, dpr, 0, 0);
@@ -44,9 +44,10 @@ export const InteractiveCanvasBg = memo(function InteractiveCanvasBg() {
     const stars: Star[] = [];
 
     function initStars() {
+      if (!canvas) return;
       stars.length = 0;
-      const w = window.innerWidth;
-      const h = window.innerHeight;
+      const w = canvas.width / dpr;
+      const h = canvas.height / dpr;
       const hues = [210, 230, 260, 280, 300, 185]; // cool blues, violets, cyan
       for (let i = 0; i < STAR_COUNT; i++) {
         const base = 0.15 + Math.random() * 0.65;
@@ -92,8 +93,9 @@ export const InteractiveCanvasBg = memo(function InteractiveCanvasBg() {
     // ── Draw loop ────────────────────────────────────────────────────────────
     function tick() {
       t++;
-      const w = window.innerWidth;
-      const h = window.innerHeight;
+      if (!canvas) return;
+      const w = canvas.width / dpr;
+      const h = canvas.height / dpr;
 
       // Read theme each frame and smoothly lerp transition factor
       const targetDark = document.documentElement.classList.contains("dark") ? 1 : 0;

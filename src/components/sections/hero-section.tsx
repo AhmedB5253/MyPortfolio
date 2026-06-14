@@ -135,9 +135,9 @@ export function HeroSection() {
       {/* ═══════════════════════════════════════════════
           BACKGROUND LAYER 1 — Interactive high-performance 2D Canvas
       ═══════════════════════════════════════════════ */}
-      {/* Background canvas — position:fixed so scroll cannot dim it */}
+      {/* Background canvas — position:absolute so it scrolls with the hero section */}
       <div
-        className="fixed inset-0 z-[1] pointer-events-none"
+        className="absolute inset-0 z-[1] pointer-events-none"
         style={{
           maskImage: "linear-gradient(to bottom, transparent 0%, black 10%, black 90%, transparent 100%)",
           WebkitMaskImage: "linear-gradient(to bottom, transparent 0%, black 10%, black 90%, transparent 100%)",
