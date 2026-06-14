@@ -154,6 +154,7 @@ textarea {
   margin-inline: auto;
   width: min(1180px, calc(100% - 32px));
   padding-block: clamp(84px, 12vw, 150px);
+  contain: layout style;
 }
 
 .glass {
@@ -201,6 +202,12 @@ textarea {
   pointer-events: none;
   opacity: 0.16;
   background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 160 160' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");
+}
+
+/* GPU-composited blob animation — forces own compositor layer */
+.blob-animate {
+  will-change: transform;
+  transform: translateZ(0);
 }
 
 .focus-ring:focus-visible {

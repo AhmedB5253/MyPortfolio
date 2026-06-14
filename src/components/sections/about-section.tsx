@@ -24,8 +24,8 @@ export function AboutSection() {
       <div className="section-shell">
         <SectionHeading
           eyebrow="About me"
-          title={<>A developer building responsive interfaces and robust database backends.</>}
-          copy="I design and build modern web applications and command-line services, bridging the gap between clean frontend components and reliable backend database logic."
+          title={<>A designer who speaks both pixels and data.</>}
+          copy="I craft beautiful interfaces and uncover meaningful insights from data — bridging visual design with analytical thinking to create experiences that are both delightful and purposeful."
         />
 
         <div className="mt-16 grid gap-6 lg:grid-cols-[0.9fr_1.1fr]">
@@ -47,7 +47,7 @@ export function AboutSection() {
               <div>
                 <p className="text-xs font-semibold uppercase tracking-[0.32em] text-slate-500 dark:text-white/52 transition-colors duration-300">Profile card</p>
                 <h3 className="mt-5 font-display text-4xl font-semibold text-slate-900 dark:text-white transition-colors duration-300">Ahmed Bhawrasa</h3>
-                <p className="mt-3 text-slate-600 dark:text-white/68 transition-colors duration-300">Frontend Developer & UI/UX Designer</p>
+                <p className="mt-3 text-slate-600 dark:text-white/68 transition-colors duration-300">UI/UX Designer & Data Analyst</p>
               </div>
 
               <div className="flex flex-col gap-4">
@@ -88,8 +88,8 @@ export function AboutSection() {
               },
               {
                 icon: Sparkles,
-                title: "Backend & Database Engineering",
-                copy: "I implement backend services and relational databases using Python and MySQL, managing secure data routing, billing scripts, and query performance.",
+                title: "Data Analysis & Visualization",
+                copy: "I analyze datasets, craft readable charts, and design data dashboards that translate numbers into visual stories that anyone can understand at a glance.",
               },
             ].map((item, index) => (
               <Reveal key={item.title} delay={index * 0.08} className="glass rounded-2xl p-6 md:p-8">

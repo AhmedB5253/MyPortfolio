@@ -1,221 +1,214 @@
 "use client";
 
-import { useEffect, memo } from "react";
+import { useEffect, useRef, memo } from "react";
 
+/**
+ * Pure-canvas hero background — no external libraries.
+ * Runs a continuous requestAnimationFrame loop.
+ * Theme changes are handled by reading the DOM class every frame
+ * and lerp-ing colors smoothly — NO restart, NO flash.
+ */
 export const InteractiveCanvasBg = memo(function InteractiveCanvasBg() {
-  const containerId = "particles-js-container";
+  const canvasRef = useRef<HTMLCanvasElement>(null);
+  const rafRef = useRef<number | null>(null);
 
   useEffect(() => {
-    // To avoid SSR issues
-    if (typeof window === "undefined") return;
+    const canvas = canvasRef.current;
+    if (!canvas) return;
+    const ctx = canvas.getContext("2d", { alpha: true });
+    if (!ctx) return;
 
-    let isMounted = true;
-    let scriptElement: HTMLScriptElement | null = null;
+    const dpr = Math.min(window.devicePixelRatio || 1, 2);
 
-    const getConfig = (isDark: boolean) => {
-      return {
-        particles: {
-          number: {
-            value: 120,
-            max_cap: 200,
-            density: {
-              enable: false,
-            },
-          },
-          // White stars in dark mode, indigo stars in light mode
-          color: {
-            value: isDark ? "#ffffff" : "#4f46e5",
-          },
-          shape: {
-            type: "star-glow",
-            stroke: {
-              width: 0,
-              color: "#000000",
-            },
-          },
-          opacity: {
-            value: isDark ? 0.8 : 0.7,
-            random: true,
-            anim: {
-              enable: true,
-              speed: 0.8,
-              opacity_min: 0.15,
-              sync: false,
-            },
-          },
-          size: {
-            value: 1.8,
-            random: true,
-            anim: {
-              enable: false,
-            },
-          },
-          // Cyan lines in dark mode, soft indigo lines in light mode
-          line_linked: {
-            enable: false,
-            distance: 140,
-            color: isDark ? "#a0dcff" : "#818cf8",
-            opacity: isDark ? 0.22 : 0.28,
-            width: isDark ? 0.9 : 1.0,
-          },
-          move: {
-            enable: true,
-            speed: 1.5,
-            direction: "none",
-            random: true,
-            straight: false,
-            out_mode: "out",
-            bounce: false,
-          },
-        },
-        interactivity: {
-          // Detect on window globally so clicks register even over card/text overlays
-          detect_on: "window",
-          events: {
-            onhover: {
-              enable: false,
-              mode: [],
-            },
-            onclick: {
-              enable: false,
-              mode: [],
-            },
-            resize: true,
-          },
-          modes: {
-            grab: {
-              distance: 180,
-              line_linked: {
-                opacity: isDark ? 0.35 : 0.42,
-              },
-            },
-            repulse: {
-              distance: 180,
-              duration: 0.4,
-            },
-            push: {
-              particles_nb: 8,
-            },
-          },
-        },
-        retina_detect: true,
-      };
-    };
+    // ── Resize ──────────────────────────────────────────────────────────────
+    function resize() {
+      if (!canvas) return;
+      const w = window.innerWidth;
+      const h = window.innerHeight;
+      canvas.width = w * dpr;
+      canvas.height = h * dpr;
+      ctx!.setTransform(dpr, 0, 0, dpr, 0, 0);
+    }
 
-    const destroyCurrentInstance = () => {
-      const pJSDom = (window as any).pJSDom;
-      if (pJSDom && pJSDom.length > 0) {
-        for (let i = pJSDom.length - 1; i >= 0; i--) {
-          const instance = pJSDom[i];
-          if (instance && instance.pJS) {
-            // Cancel drawing animation frame
-            if (instance.pJS.fn && instance.pJS.fn.drawAnimFrame) {
-              cancelAnimationFrame(instance.pJS.fn.drawAnimFrame);
-            }
-            // Remove canvas element
-            if (instance.pJS.canvas && instance.pJS.canvas.el) {
-              instance.pJS.canvas.el.remove();
-            }
-            pJSDom.splice(i, 1);
-          }
-        }
-      }
-    };
+    // ── Star particles ───────────────────────────────────────────────────────
+    interface Star {
+      x: number; y: number;
+      size: number;
+      alpha: number; baseAlpha: number;
+      phase: number; phaseSpeed: number;
+      vx: number; vy: number;
+      hue: number;
+    }
 
-    const initParticles = () => {
-      if (!isMounted) return;
-      
-      destroyCurrentInstance();
+    const STAR_COUNT = 110;
+    const stars: Star[] = [];
 
-      const isDark = document.documentElement.classList.contains("dark");
-      const config = getConfig(isDark);
-
-      if ((window as any).particlesJS) {
-        (window as any).particlesJS(containerId, config);
-      }
-    };
-
-    // Initialize MutationObserver to re-initialize particles when theme toggles
-    const observer = new MutationObserver((mutations) => {
-      for (const mutation of mutations) {
-        if (mutation.attributeName === "class") {
-          initParticles();
-        }
-      }
-    });
-
-    observer.observe(document.documentElement, {
-      attributes: true,
-      attributeFilter: ["class"],
-    });
-
-    if ((window as any).particlesJS) {
-      initParticles();
-    } else {
-      // Check if script already exists to avoid duplicate loading
-      const existingScript = document.getElementById("particles-js-script") as HTMLScriptElement;
-      if (existingScript) {
-        if (existingScript.dataset.loaded === "true") {
-          initParticles();
-        } else {
-          existingScript.addEventListener("load", initParticles);
-        }
-      } else {
-        scriptElement = document.createElement("script");
-        scriptElement.id = "particles-js-script";
-        scriptElement.src = "/particles.js";
-        scriptElement.async = true;
-        scriptElement.dataset.loaded = "false";
-        scriptElement.addEventListener("load", () => {
-          if (scriptElement) {
-            scriptElement.dataset.loaded = "true";
-          }
-          initParticles();
+    function initStars() {
+      stars.length = 0;
+      const w = window.innerWidth;
+      const h = window.innerHeight;
+      const hues = [210, 230, 260, 280, 300, 185]; // cool blues, violets, cyan
+      for (let i = 0; i < STAR_COUNT; i++) {
+        const base = 0.15 + Math.random() * 0.65;
+        stars.push({
+          x: Math.random() * w,
+          y: Math.random() * h,
+          size: 0.4 + Math.random() * 1.4,
+          alpha: 0,
+          baseAlpha: base,
+          phase: Math.random() * Math.PI * 2,
+          phaseSpeed: 0.005 + Math.random() * 0.012,
+          vx: (Math.random() - 0.5) * 0.18,
+          vy: (Math.random() - 0.5) * 0.10,
+          hue: hues[Math.floor(Math.random() * hues.length)],
         });
-        document.body.appendChild(scriptElement);
       }
     }
 
-    return () => {
-      isMounted = false;
-      observer.disconnect();
-      
-      // Cleanup script listener if it hasn't loaded yet
-      const existingScript = document.getElementById("particles-js-script");
-      if (existingScript) {
-        existingScript.removeEventListener("load", initParticles);
+    // ── Aurora orbs ─────────────────────────────────────────────────────────
+    interface Orb {
+      xPct: number; yPct: number;
+      radiusPct: number;
+      hue: number;
+      lightAlpha: number;  // target opacity in light mode
+      darkAlpha: number;   // target opacity in dark mode
+      currentAlpha: number;
+      phase: number; speed: number;
+    }
+
+    const orbs: Orb[] = [
+      { xPct: 0.15, yPct: 0.35, radiusPct: 0.42, hue: 245, lightAlpha: 0.18, darkAlpha: 0.12, currentAlpha: 0, phase: 0,   speed: 0.00018 },
+      { xPct: 0.82, yPct: 0.22, radiusPct: 0.48, hue: 220, lightAlpha: 0.14, darkAlpha: 0.10, currentAlpha: 0, phase: 1.8, speed: 0.00013 },
+      { xPct: 0.48, yPct: 0.72, radiusPct: 0.38, hue: 185, lightAlpha: 0.12, darkAlpha: 0.08, currentAlpha: 0, phase: 3.2, speed: 0.00022 },
+      { xPct: 0.75, yPct: 0.78, radiusPct: 0.32, hue: 290, lightAlpha: 0.14, darkAlpha: 0.09, currentAlpha: 0, phase: 4.5, speed: 0.00016 },
+    ];
+
+    // ── State ────────────────────────────────────────────────────────────────
+    let t = 0;
+    let isDark = document.documentElement.classList.contains("dark");
+    // Smooth theme-transition factor (0 = full light, 1 = full dark)
+    let themeFactor = isDark ? 1 : 0;
+
+    // ── Draw loop ────────────────────────────────────────────────────────────
+    function tick() {
+      t++;
+      const w = window.innerWidth;
+      const h = window.innerHeight;
+
+      // Read theme each frame and smoothly lerp transition factor
+      const targetDark = document.documentElement.classList.contains("dark") ? 1 : 0;
+      themeFactor += (targetDark - themeFactor) * 0.04; // smooth ~25-frame cross-fade
+      isDark = themeFactor > 0.5;
+
+      ctx!.clearRect(0, 0, w, h);
+
+      // Background fill — lerp between light (#fafafc) and dark (#000)
+      const bgLight = { r: 250, g: 250, b: 252 };
+      const bgDark  = { r: 0,   g: 0,   b: 0   };
+      const r = Math.round(bgLight.r + (bgDark.r - bgLight.r) * themeFactor);
+      const g = Math.round(bgLight.g + (bgDark.g - bgLight.g) * themeFactor);
+      const b = Math.round(bgLight.b + (bgDark.b - bgLight.b) * themeFactor);
+      ctx!.fillStyle = `rgb(${r},${g},${b})`;
+      ctx!.fillRect(0, 0, w, h);
+
+      // ── Draw aurora orbs ──────────────────────────────────────────────────
+      for (const orb of orbs) {
+        const driftX = Math.sin(t * orb.speed + orb.phase) * w * 0.015;
+        const driftY = Math.cos(t * orb.speed * 0.8 + orb.phase) * h * 0.015;
+        const ox = orb.xPct * w + driftX;
+        const oy = orb.yPct * h + driftY;
+
+        const targetAlpha = orb.lightAlpha + (orb.darkAlpha - orb.lightAlpha) * themeFactor;
+        orb.currentAlpha += (targetAlpha - orb.currentAlpha) * 0.04;
+
+        const breathe = 1 + Math.sin(t * 0.0008 + orb.phase) * 0.04;
+        const radius = Math.min(w, h) * orb.radiusPct * breathe;
+        if (radius <= 0) continue;
+
+        const grad = ctx!.createRadialGradient(ox, oy, 0, ox, oy, radius);
+        const a = Math.max(0, Math.min(1, orb.currentAlpha));
+        grad.addColorStop(0,    `hsla(${orb.hue},75%,65%,${a})`);
+        grad.addColorStop(0.4,  `hsla(${orb.hue+15},70%,55%,${a * 0.45})`);
+        grad.addColorStop(1,    "transparent");
+
+        ctx!.save();
+        ctx!.globalCompositeOperation = "source-over";
+        ctx!.fillStyle = grad;
+        ctx!.beginPath();
+        ctx!.arc(ox, oy, radius, 0, Math.PI * 2);
+        ctx!.fill();
+        ctx!.restore();
       }
 
-      destroyCurrentInstance();
+      // ── Draw stars ────────────────────────────────────────────────────────
+      // Stars only appear in darker conditions — fade with theme factor
+      const starOpacityMult = 0.25 + themeFactor * 0.75;
+
+      for (const star of stars) {
+        // Drift
+        star.x += star.vx;
+        star.y += star.vy;
+        // Wrap around
+        if (star.x < 0)  star.x += w;
+        if (star.x > w)  star.x -= w;
+        if (star.y < 0)  star.y += h;
+        if (star.y > h)  star.y -= h;
+
+        // Twinkle
+        const twinkle = 0.3 + 0.7 * Math.sin(t * star.phaseSpeed + star.phase);
+        star.alpha = Math.max(0, Math.min(1, star.baseAlpha * twinkle * starOpacityMult));
+        if (star.alpha < 0.01) continue;
+
+        // Core dot
+        ctx!.fillStyle = `hsla(${star.hue},90%,98%,${star.alpha})`;
+        ctx!.beginPath();
+        ctx!.arc(star.x, star.y, star.size, 0, Math.PI * 2);
+        ctx!.fill();
+
+        // Soft glow for brighter stars
+        if (star.size > 0.85 && star.alpha > 0.35) {
+          const gGrad = ctx!.createRadialGradient(star.x, star.y, 0, star.x, star.y, star.size * 3.5);
+          gGrad.addColorStop(0, `hsla(${star.hue},90%,90%,${star.alpha * 0.28})`);
+          gGrad.addColorStop(1, "transparent");
+          ctx!.fillStyle = gGrad;
+          ctx!.beginPath();
+          ctx!.arc(star.x, star.y, star.size * 3.5, 0, Math.PI * 2);
+          ctx!.fill();
+        }
+      }
+
+      rafRef.current = requestAnimationFrame(tick);
+    }
+
+    // ── Boot ─────────────────────────────────────────────────────────────────
+    resize();
+    initStars();
+    rafRef.current = requestAnimationFrame(tick);
+
+    const handleResize = () => {
+      resize();
+      initStars();
+    };
+    window.addEventListener("resize", handleResize, { passive: true });
+
+    return () => {
+      if (rafRef.current) cancelAnimationFrame(rafRef.current);
+      window.removeEventListener("resize", handleResize);
     };
   }, []);
 
   return (
-    <div
-      id={containerId}
-      className="absolute inset-0 w-full h-full pointer-events-none bg-[#fafafc] dark:bg-black transition-colors duration-300 overflow-hidden"
-    >
-      {/* Drifting Color Blobs (Visible in both Light & Dark modes) */}
-      <div className="absolute inset-0 overflow-hidden pointer-events-none select-none z-[0]">
-        {/* Blob 1: Indigo */}
-        <div 
-          className="absolute rounded-full bg-indigo-400/20 dark:bg-indigo-950/25 blur-[90px] top-[-50px] left-[10%] w-[350px] h-[350px]"
-          style={{ animation: "float-blob-1 25s infinite alternate ease-in-out" }}
-        />
-        
-        {/* Blob 2: Cyan */}
-        <div 
-          className="absolute rounded-full bg-cyan-300/15 dark:bg-cyan-950/20 blur-[100px] bottom-[-80px] right-[15%] w-[400px] h-[400px]"
-          style={{ animation: "float-blob-2 30s infinite alternate ease-in-out" }}
-        />
-        
-        {/* Blob 3: Violet/Purple */}
-        <div 
-          className="absolute rounded-full bg-purple-300/15 dark:bg-purple-950/20 blur-[80px] top-[45%] left-[45%] -translate-x-1/2 -translate-y-1/2 w-[300px] h-[300px]"
-          style={{ animation: "float-blob-3 20s infinite alternate ease-in-out" }}
-        />
-      </div>
-    </div>
+    <canvas
+      ref={canvasRef}
+      style={{
+        position: "absolute",
+        inset: 0,
+        width: "100%",
+        height: "100%",
+        display: "block",
+      }}
+      aria-hidden="true"
+    />
   );
 });
 

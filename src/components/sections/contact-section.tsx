@@ -45,16 +45,16 @@ export function ContactSection() {
       <div className="section-shell">
         <SectionHeading
           eyebrow="Contact"
-          title={<>Ready to contribute. Let’s talk.</>}
-          copy="Connect regarding frontend roles, internship opportunities, UI/UX collaborations, or project builds."
+          title={<>Let's design something meaningful together.</>}
+          copy="Connect regarding UI/UX design, data visualization, frontend roles, internships, or any project where design meets data."
         />
 
         <div className="mt-16 grid gap-6 lg:grid-cols-[0.9fr_1.1fr]">
           <Reveal className="glass rounded-2xl p-6 md:p-8">
             <p className="text-xs font-semibold uppercase tracking-[0.28em] text-cyan-700 dark:text-cyan-100/64">Open to work</p>
-            <h3 className="mt-5 font-display text-4xl font-semibold text-slate-900 transition-colors duration-300 dark:text-white">Frontend roles, UI work, and creative web builds.</h3>
+            <h3 className="mt-5 font-display text-4xl font-semibold text-slate-900 transition-colors duration-300 dark:text-white">UI/UX design, data insights, and creative web builds.</h3>
             <p className="mt-5 text-base leading-8 text-slate-600 transition-colors duration-300 dark:text-white/62">
-              Reach out for portfolio reviews, frontend development, landing pages, dashboard interfaces, UI/UX concepts, or interactive web experiences.
+              Reach out for UI/UX design work, data visualization dashboards, frontend development, landing pages, portfolio reviews, or creative web experiences where design and data work together.
             </p>
             <div className="mt-8 flex flex-wrap gap-3">
               <MagneticButton href={`mailto:${owner.email}`} icon={Mail} data-hover="open">Email me</MagneticButton>
@@ -121,6 +121,7 @@ export function ContactSection() {
                       <option value="" disabled className="text-slate-400 dark:text-white/28 bg-white dark:bg-[#0c1017]">Select a skill / project type...</option>
                       <option value="Frontend Development" className="bg-white dark:bg-[#0c1017]">Frontend Development (React/Next.js)</option>
                       <option value="UI/UX Design" className="bg-white dark:bg-[#0c1017]">UI/UX Design (Figma)</option>
+                      <option value="Data Analysis & Visualization" className="bg-white dark:bg-[#0c1017]">Data Analysis & Visualization</option>
                       <option value="Graphic Design" className="bg-white dark:bg-[#0c1017]">Graphic Design (Branding & Assets)</option>
                       <option value="Web Design" className="bg-white dark:bg-[#0c1017]">Web Design (Responsive Layouts)</option>
                       <option value="Other Consultation" className="bg-white dark:bg-[#0c1017]">Other Collaboration</option>

@@ -18,6 +18,7 @@ export function Reveal({ children, className, delay = 0, y = 28, ...props }: Rev
       whileInView={{ opacity: 1, y: 0 }}
       viewport={{ once: true, margin: "-90px" }}
       transition={{ duration: 0.85, delay, ease: [0.215, 0.61, 0.355, 1] }}
+      style={{ willChange: "transform, opacity" }}
       {...props}
     >
       {children}

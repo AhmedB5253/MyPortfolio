@@ -2,7 +2,7 @@
 
 import Image from "next/image";
 import { motion, useScroll, useTransform, useMotionValue, useSpring } from "framer-motion";
-import { useRef, useEffect, useState } from "react";
+import { useRef, useEffect, useState, useMemo, useCallback } from "react";
 import { ArrowDown, ArrowUpRight, Download, Code2, Palette, BrainCircuit, GraduationCap, CheckCircle } from "lucide-react";
 import { MagneticButton } from "@/components/ui/magnetic-button";
 import { InteractiveCanvasBg } from "@/components/ui/interactive-canvas-bg";
@@ -87,33 +87,41 @@ export function HeroSection() {
 
   const portraitScale = useTransform(scrollYProgress, [0, 1], [1, 1.08]);
   const contentFade = useTransform(scrollYProgress, [0, 0.6], [1, 0]);
-  const backgroundFade = useTransform(scrollYProgress, [0, 0.8], [0.95, 0.85]);
   const contentY = useTransform(scrollYProgress, [0, 1], [0, -40]);
 
-  const handleMouseMove = (e: React.MouseEvent) => {
-    if (isMobile) return;
-    const rect = containerRef.current?.getBoundingClientRect();
-    if (!rect) return;
-    const width = rect.width;
-    const height = rect.height;
-    const x = e.clientX - rect.left - width / 2;
-    const y = e.clientY - rect.top - height / 2;
-    mouseX.set(x / width);
-    mouseY.set(y / height);
-  };
+  // RAF ref for mouse throttle
+  const mouseTicking = useRef(false);
 
-  const handleMouseLeave = () => {
+  const handleMouseMove = useCallback((e: React.MouseEvent) => {
+    if (isMobile) return;
+    if (mouseTicking.current) return;
+    mouseTicking.current = true;
+    requestAnimationFrame(() => {
+      const rect = containerRef.current?.getBoundingClientRect();
+      if (rect) {
+        const width = rect.width;
+        const height = rect.height;
+        const x = e.clientX - rect.left - width / 2;
+        const y = e.clientY - rect.top - height / 2;
+        mouseX.set(x / width);
+        mouseY.set(y / height);
+      }
+      mouseTicking.current = false;
+    });
+  }, [isMobile, mouseX, mouseY]);
+
+  const handleMouseLeave = useCallback(() => {
     mouseX.set(0);
     mouseY.set(0);
-  };
+  }, [mouseX, mouseY]);
 
-  // Floating bento-style badges lists
-  const proofBadges = [
+  // Memoized proof badges — avoid array re-creation every render
+  const proofBadges = useMemo(() => [
     { label: "5+ Projects Built", icon: CheckCircle, accent: "border-cyan-400/20 text-cyan-200" },
-    { label: "Frontend Focused", icon: Code2, accent: "border-blue-400/20 text-blue-200" },
+    { label: "Data Analyst", icon: BrainCircuit, accent: "border-blue-400/20 text-blue-200" },
     { label: "UI/UX Certified", icon: Palette, accent: "border-purple-400/20 text-purple-200" },
-    { label: "Learning AI", icon: BrainCircuit, accent: "border-amber-400/20 text-amber-200" },
-  ];
+    { label: "Learning AI & ML", icon: GraduationCap, accent: "border-amber-400/20 text-amber-200" },
+  ], []);
 
   return (
     <section
@@ -127,25 +135,22 @@ export function HeroSection() {
       {/* ═══════════════════════════════════════════════
           BACKGROUND LAYER 1 — Interactive high-performance 2D Canvas
       ═══════════════════════════════════════════════ */}
-      <motion.div
+      {/* Background canvas — position:fixed so scroll cannot dim it */}
+      <div
+        className="fixed inset-0 z-[1] pointer-events-none"
         style={{
-          opacity: backgroundFade,
-          maskImage: "linear-gradient(to bottom, transparent 0%, black 12%, black 88%, transparent 100%)",
-          WebkitMaskImage: "linear-gradient(to bottom, transparent 0%, black 12%, black 88%, transparent 100%)",
+          maskImage: "linear-gradient(to bottom, transparent 0%, black 10%, black 90%, transparent 100%)",
+          WebkitMaskImage: "linear-gradient(to bottom, transparent 0%, black 10%, black 90%, transparent 100%)",
         }}
-        className="absolute inset-0 z-[1]"
       >
         <InteractiveCanvasBg />
-      </motion.div>
+      </div>
 
 
       {/* ═══════════════════════════════════════════════
           BACKGROUND LAYER 3 — Grid lines (calm & subtle, panning continuously)
       ═══════════════════════════════════════════════ */}
-      <motion.div
-        style={{ opacity: backgroundFade }}
-        className="absolute inset-0 z-[3] pointer-events-none"
-      >
+      <div className="absolute inset-0 z-[3] pointer-events-none">
         {/* Grid lines (pulsing, continuous panning) */}
         <motion.div
           animate={{ 
@@ -163,7 +168,7 @@ export function HeroSection() {
             WebkitMaskImage: "radial-gradient(ellipse 80% 60% at 50% 30%, black 30%, transparent 75%)",
           }}
         />
-      </motion.div>
+      </div>
 
       {/* ═══════════════════════════════════════════════
           BACKGROUND LAYER 4 — Noise grain texture
@@ -231,11 +236,11 @@ export function HeroSection() {
             className="mt-4 lg:mt-5 flex flex-wrap items-center gap-3"
           >
             <span className="text-sm font-bold tracking-wider text-slate-700 transition-colors duration-300 dark:text-white/60">
-              Frontend Developer & UI/UX Designer
+              UI/UX Designer & Data Analyst
             </span>
             <span className="h-1.5 w-1.5 rounded-full bg-slate-300 transition-colors duration-300 dark:bg-white/20" />
             <span className="text-xs font-semibold uppercase tracking-widest text-indigo-600 transition-colors duration-300 dark:text-cyan-400">
-              Learning AI & ML
+              Visual Storyteller
             </span>
           </motion.div>
 

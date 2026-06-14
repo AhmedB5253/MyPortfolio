@@ -13,7 +13,7 @@ export function TiltCard({ children, className = "" }: { children: ReactNode; cl
   return (
     <motion.div
       className={`group relative transform-gpu overflow-hidden rounded-2xl border border-slate-200/80 bg-white/60 dark:border-white/12 dark:bg-[#0f1422]/72 shadow-[0_15px_40px_rgba(15,23,42,0.06)] dark:shadow-[0_24px_90px_rgba(0,0,0,0.28)] backdrop-blur-xl ${className}`}
-      style={{ rotateX, rotateY, transformStyle: "preserve-3d", perspective: 1000 }}
+      style={{ rotateX, rotateY, transformStyle: "preserve-3d", perspective: 1000, willChange: "transform" }}
       whileHover={{ y: -6, scale: 1.012 }}
       transition={{ type: "spring", stiffness: 180, damping: 22, mass: 0.6 }}
       onMouseMove={(event) => {

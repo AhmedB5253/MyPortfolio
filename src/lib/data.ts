@@ -20,9 +20,9 @@ import {
 
 export const owner = {
   name: "Ahmed Bhawrasa",
-  title: "Frontend Developer, Graphic & Web Designer",
+  title: "UI/UX Designer & Data Analyst",
   intro:
-    "Crafting cinematic, responsive user interfaces, robust digital experiences, and high-impact branding. Specializing in clean frontend engineering (React, Next.js), intuitive UI/UX design, responsive web design, and bespoke graphic aesthetics.",
+    "Designing beautiful, data-informed digital experiences. Combining intuitive UI/UX craft with data analysis to build interfaces that look stunning and tell meaningful stories. Specializing in Figma design systems, React/Next.js frontends, visual data storytelling, and graphic design.",
   email: "Ahmedmoiz8454@gmail.com",
   location: "Indore, India",
   resume: "/Ahmed-Bhawrasawala-Resume.pdf",
@@ -203,6 +203,23 @@ export const skillGroups = [
     ],
   },
   {
+    title: "Data Analysis & Visualization",
+    icon: ChartNoAxesCombined,
+    accent: "blue",
+    skills: [
+      {
+        name: "Data Storytelling & Charts",
+        signal: "Visual Insights",
+        detail: "Turning raw data into compelling visual stories using Excel, Power BI basics, and chart design principles.",
+      },
+      {
+        name: "Python Data Analysis",
+        signal: "Pandas & Matplotlib",
+        detail: "Exploratory data analysis, data cleaning, and creating visual summaries using pandas and matplotlib.",
+      }
+    ],
+  },
+  {
     title: "Graphic Design & Visuals",
     icon: Palette,
     accent: "blue",
@@ -293,26 +310,26 @@ export const designShowcase = [
 
 export const services = [
   { title: "Frontend Development", icon: Code2, detail: "Modern React & Next.js interfaces built with modular components and high performance." },
-  { title: "High-Fidelity UI/UX Design", icon: Brush, detail: "Elegant, polished vector layouts, wireframes, and design specs designed in Figma." },
+  { title: "High-Fidelity UI/UX Design", icon: Brush, detail: "Elegant, polished vector layouts, wireframes, and design specs crafted in Figma." },
+  { title: "Data Visualization & Dashboards", icon: ChartNoAxesCombined, detail: "Transforming raw data into clear, engaging charts, dashboards, and visual reports using Python and Power BI." },
   { title: "Responsive Interface Engineering", icon: Smartphone, detail: "Fluid layouts that feel custom-crafted for ultra-wide monitors down to 375px viewports." },
   { title: "Cinematic Web Experiences", icon: Rocket, detail: "Polished glassmorphism, micro-animations, custom cursor follow-throughs, and scroll-triggers." },
-  { title: "Data-Backed Business Logic", icon: Database, detail: "Fast CLI systems and MySQL database architectures tailored to process relational business flows." },
-  { title: "AI/ML Focused Prototyping", icon: Globe2, detail: "Designing and preparing intuitive frontends and query mechanisms for future AI models." }
+  { title: "Graphic Design & Branding", icon: Palette, detail: "High-impact brand identities, logos, digital assets, and marketing visuals." }
 ];
 
 export const testimonials = [
   {
-    quote: "Project-based learning across websites, React interfaces, Python console programs, SQL tables, and simple analysis workflows.",
-    name: "Learning Mode",
-    role: "Fresher Profile"
+    quote: "Building data-informed interfaces that don't just look beautiful — they communicate insights clearly and guide users to better decisions.",
+    name: "Design Philosophy",
+    role: "UI/UX + Data Analyst"
   },
   {
-    quote: "Focused on building clean layouts, readable structure, responsive behavior, and practical project explanations.",
+    quote: "Focused on clean layouts, readable data visualizations, and practical frontend projects that bridge design aesthetics with analytical thinking.",
     name: "Portfolio Focus",
     role: "Recruiter-Ready Presentation"
   },
   {
-    quote: "Open to internships, trainee roles, junior frontend work, and opportunities where consistent learning matters.",
+    quote: "Open to internships, trainee roles, and junior opportunities in UI/UX design, data analysis, or frontend development where learning and creativity thrive.",
     name: "Career Goal",
     role: "First Opportunity"
   }
